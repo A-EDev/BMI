@@ -4,21 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Weekly Meal Plan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
-        <div class="container header-content">
-            <h1 class="site-title">Weekly Meal Plan</h1>
+        <div class="header-content">
+            <h1 class="site-title">WeeklyMeal</h1>
             <nav>
                 <ul class="nav-menu">
-                    <li><a class="nav-link" href="home.php">Home</a></li>
-                    <li><a class="nav-link" href="plan.php">Plan</a></li>
-                    <li><a class="nav-link" href="meal_plan.php">Meal Plan</a></li>
-                    <li><a class="nav-link" href="consumption.php">Consumption</a></li>
-                    <li><a class="nav-link" href="contact.php">Contact</a></li>
-                    <li><a class="nav-link" href="about.php">About</a></li>
-                    <li><a class="nav-link" href="logout.php">Logout</a></li>
+                    <li><a class="nav-link" href="home.php"><span>🏠</span> Home</a></li>
+                    <li><a class="nav-link" href="plan.php"><span>📋</span> Plan</a></li>
+                    <li><a class="nav-link" href="meal_plan.php"><span>🍽️</span> Meals</a></li>
+                    <li><a class="nav-link" href="consumption.php"><span>📊</span> Stats</a></li>
+                    <li><a class="nav-link" href="contact.php"><span>📞</span> Contact</a></li>
+                    <li><a class="nav-link" href="about.php"><span>ℹ️</span> About</a></li>
+                    <li><a class="nav-link" href="logout.php"><span>🚪</span> Logout</a></li>
                 </ul>
             </nav>
         </div>
@@ -26,7 +27,10 @@
 
     <main class="container">
         <h2 class="section-title">Your Weekly Meal Plan</h2>
-        <div id="meal-plan">Loading your personalized meal plan...</div>
+        <div id="meal-plan" class="loading">
+            <div class="loading-spinner"></div>
+            <p>Crafting your personalized meal plan...</p>
+        </div>
     </main>
 
     <script>
