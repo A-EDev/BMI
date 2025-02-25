@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Weekly Meal Plan</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <h1 class="site-title">Weekly Meal Plan</h1>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a class="nav-link" href="home.php">Home</a></li>
+                    <li><a class="nav-link" href="plan.php">Plan</a></li>
+                    <li><a class="nav-link" href="meal_plan.php">Meal Plan</a></li>
+                    <li><a class="nav-link" href="consumption.php">Consumption</a></li>
+                    <li><a class="nav-link" href="contact.php">Contact</a></li>
+                    <li><a class="nav-link" href="about.php">About</a></li>
+                    <li><a class="nav-link" href="logout.php">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h2 class="section-title">Your Weekly Meal Plan</h2>
+        <div id="meal-plan">Loading your personalized meal plan...</div>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const apiKey = "f99adf078c7b4a23a510ef22b8f1e7e8";
+            const demoUrl = `https://api.spoonacular.com/mealplanner/generate?timeFrame=week&apiKey=${apiKey}`;
+
+            async function fetchMealPlan() {
+                try {
+                    const response = await fetch(demoUrl);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    const data = await response.json();
+                    console.log("API Response:", data); // For debugging
+                    if (data.week) {
+                        displayMealPlan(data.week);
+                    } else {
+                        throw new Error("Invalid response format");
+                    }
+                } catch (error) {
+                    console.error("Error fetching meal plan:", error);
+                    document.getElementById("meal-plan").innerHTML = `
+                        <div class="alert alert-danger" role="alert">
+                            Error loading meal plan: ${error.message}
+                        </div>`;
+                }
+            }
+
+            function displayMealPlan(weekData) {
+                const container = document.getElementById("meal-plan");
+                container.innerHTML = "";
+                const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+                
+                const mealGrid = document.createElement("div");
+                mealGrid.className = "meal-grid";
+                
+                days.forEach(day => {
+                    const dayMeals = weekData[day];
+                    if (dayMeals && dayMeals.meals) {
+                        const dayCard = document.createElement("div");
+                        dayCard.className = "day-card";
+                        dayCard.innerHTML = `
+                            <div class="day-header">
+                                ${day.charAt(0).toUpperCase() + day.slice(1)}
+                            </div>
+                            <div class="day-content">
+                                ${dayMeals.meals.map(meal => `
+                                    <div class="meal-item">
+                                        <img src="https://spoonacular.com/recipeImages/${meal.id}-636x393.jpg" 
+                                             class="meal-image" alt="${meal.title}">
+                                        <div class="meal-info">
+                                            <h3 class="meal-title">${meal.title}</h3>
+                                            <div class="meal-meta">
+                                                <span>🕒 ${meal.readyInMinutes}min</span>
+                                                <span>👥 ${meal.servings} servings</span>
+                                            </div>
+                                            <a href="${meal.sourceUrl}" class="view-recipe" target="_blank">View Recipe</a>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                                ${dayMeals.nutrients ? `
+                                    <div class="nutrition-box">
+                                        <h4 class="nutrition-title">Daily Nutrition</h4>
+                                        <ul class="nutrition-list">
+                                            <li class="nutrition-item">
+                                                <strong>${Math.round(dayMeals.nutrients.calories)}</strong>
+                                                <div>calories</div>
+                                            </li>
+                                            <li class="nutrition-item">
+                                                <strong>${Math.round(dayMeals.nutrients.protein)}g</strong>
+                                                <div>protein</div>
+                                            </li>
+                                            <li class="nutrition-item">
+                                                <strong>${Math.round(dayMeals.nutrients.fat)}g</strong>
+                                                <div>fat</div>
+                                            </li>
+                                            <li class="nutrition-item">
+                                                <strong>${Math.round(dayMeals.nutrients.carbohydrates)}g</strong>
+                                                <div>carbs</div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                        mealGrid.appendChild(dayCard);
+                    }
+                });
+                
+                container.appendChild(mealGrid);
+            }
+
+            fetchMealPlan();
+        });
+    </script>
+</body>
+</html>
