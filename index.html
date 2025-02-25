@@ -6,6 +6,7 @@
     <title>Premium Weekly Meal Plan</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="config.js"></script>
 </head>
 <body>
     <header>
@@ -63,38 +64,16 @@
             });
         }
 
-        // Load environment variables
-        const loadEnvVariables = async () => {
-            try {
-                const response = await fetch('/.env');
-                const text = await response.text();
-                const vars = {};
-                
-                text.split('\n').forEach(line => {
-                    const [key, value] = line.split('=');
-                    if (key && value) {
-                        vars[key.trim()] = value.trim();
-                    }
-                });
-                
-                return vars;
-            } catch (error) {
-                console.error('Error loading environment variables:', error);
-                return {};
-            }
-        };
-
         document.addEventListener("DOMContentLoaded", async () => {
             initializeTheme();
             
-            // Load API key from environment variables
-            const env = await loadEnvVariables();
-            const apiKey = env.SPOONACULAR_API_KEY;
+            // Use API key from config
+            const apiKey = config.SPOONACULAR_API_KEY;
             
             if (!apiKey) {
                 document.getElementById("meal-plan").innerHTML = `
                     <div class="alert alert-danger">
-                        Error: API key not found. Please check your .env file.
+                        Error: API key not found. Please check your config.js file.
                     </div>`;
                 return;
             }
