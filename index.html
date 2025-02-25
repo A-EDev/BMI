@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,6 +20,11 @@
                     <li><a class="nav-link" href="contact.php"><span>📞</span> Contact</a></li>
                     <li><a class="nav-link" href="about.php"><span>ℹ️</span> About</a></li>
                     <li><a class="nav-link" href="logout.php"><span>🚪</span> Logout</a></li>
+                    <li>
+                        <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+                            <span id="theme-icon">🌞</span>
+                        </button>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -34,7 +39,32 @@
     </main>
 
     <script>
+        function initializeTheme() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const themeIcon = document.getElementById('theme-icon');
+            const htmlElement = document.documentElement;
+            
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            htmlElement.setAttribute('data-theme', savedTheme);
+            themeIcon.textContent = savedTheme === 'light' ? '🌞' : '🌙';
+
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = htmlElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                
+                htmlElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeIcon.textContent = newTheme === 'light' ? '🌞' : '🌙';
+
+                document.body.classList.add('theme-transition');
+                setTimeout(() => {
+                    document.body.classList.remove('theme-transition');
+                }, 300);
+            });
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
+            initializeTheme();
             const apiKey = "f99adf078c7b4a23a510ef22b8f1e7e8";
             const demoUrl = `https://api.spoonacular.com/mealplanner/generate?timeFrame=week&apiKey=${apiKey}`;
 
