@@ -115,7 +115,7 @@
                                         <div class="meal-info">
                                             <h3 class="meal-title">${meal.title}</h3>
                                             <div class="meal-meta">
-                                                <span>🕒 ${meal.readyInMinutes}min</span>
+                                                <span>⏱️ ${meal.readyInMinutes} minutes</span>
                                                 <span>👥 ${meal.servings} servings</span>
                                             </div>
                                             <a href="${meal.sourceUrl}" class="view-recipe" target="_blank">View Recipe</a>
@@ -124,23 +124,23 @@
                                 `).join('')}
                                 ${dayMeals.nutrients ? `
                                     <div class="nutrition-box">
-                                        <h4 class="nutrition-title">Daily Nutrition</h4>
+                                        <h4 class="nutrition-title">Nutritional Information</h4>
                                         <ul class="nutrition-list">
                                             <li class="nutrition-item">
                                                 <strong>${Math.round(dayMeals.nutrients.calories)}</strong>
-                                                <div>calories</div>
+                                                <div>Calories</div>
                                             </li>
                                             <li class="nutrition-item">
                                                 <strong>${Math.round(dayMeals.nutrients.protein)}g</strong>
-                                                <div>protein</div>
+                                                <div>Protein</div>
                                             </li>
                                             <li class="nutrition-item">
                                                 <strong>${Math.round(dayMeals.nutrients.fat)}g</strong>
-                                                <div>fat</div>
+                                                <div>Fat</div>
                                             </li>
                                             <li class="nutrition-item">
                                                 <strong>${Math.round(dayMeals.nutrients.carbohydrates)}g</strong>
-                                                <div>carbs</div>
+                                                <div>Carbs</div>
                                             </li>
                                         </ul>
                                     </div>
