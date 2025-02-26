@@ -24,18 +24,20 @@
                     <li><a class="nav-link" href="contact.php"><span>📞</span> <span class="nav-text">Contact</span></a></li>
                     <li><a class="nav-link" href="about.php"><span>ℹ️</span> <span class="nav-text">About</span></a></li>
                     <li><a class="nav-link" href="logout.php"><span>🚪</span> <span class="nav-text">Logout</span></a></li>
-                    <li>
-                        <button class="theme-toggle" id="desktop-theme-toggle" title="Toggle theme">
-                            <span id="desktop-theme-icon">🌞</span>
-                        </button>
-                    </li>
                 </ul>
             </nav>
             
-            <!-- Mobile Menu Toggle -->
-            <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
-                <span class="menu-icon"></span>
-            </button>
+            <div class="controls-wrapper" style="display: flex; align-items: center;">
+                <!-- Theme toggle always visible -->
+                <button class="theme-toggle" id="theme-toggle" title="Toggle theme">
+                    <span id="theme-icon">🌞</span>
+                </button>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu">
+                    <span class="menu-icon"></span>
+                </button>
+            </div>
         </div>
     </header>
     
@@ -58,15 +60,6 @@
                 <li class="mobile-nav-item"><a class="mobile-nav-link" href="about.php"><span>ℹ️</span> About</a></li>
                 <li class="mobile-nav-item"><a class="mobile-nav-link" href="logout.php"><span>🚪</span> Logout</a></li>
             </ul>
-        </div>
-        <div class="mobile-nav-footer">
-            <div class="theme-container">
-                <span>Theme:</span> 
-                <span id="mobile-theme-label">Light</span>
-            </div>
-            <button class="theme-toggle" id="mobile-theme-toggle">
-                <span id="mobile-theme-icon">🌞</span>
-            </button>
         </div>
     </nav>
 
@@ -138,69 +131,52 @@
                     mobileMenuToggle.classList.remove('active');
                 }
             });
-        });
 
-        // Enhanced Theme Toggle with sync between mobile and desktop
-        function initializeTheme() {
-            const desktopThemeToggle = document.getElementById('desktop-theme-toggle');
-            const mobileThemeToggle = document.getElementById('mobile-theme-toggle');
-            const desktopThemeIcon = document.getElementById('desktop-theme-icon');
-            const mobileThemeIcon = document.getElementById('mobile-theme-icon');
-            const mobileThemeLabel = document.getElementById('mobile-theme-label');
-            const htmlElement = document.documentElement;
-            
-            // Initialize theme from localStorage
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            htmlElement.setAttribute('data-theme', savedTheme);
-            
-            // Update all theme indicators
-            const updateThemeUI = (theme) => {
-                desktopThemeIcon.textContent = theme === 'light' ? '🌞' : '🌙';
-                mobileThemeIcon.textContent = theme === 'light' ? '🌞' : '🌙';
-                mobileThemeLabel.textContent = theme === 'light' ? 'Light' : 'Dark';
-            };
-            
-            updateThemeUI(savedTheme);
-            
-            // Theme toggle function
-            const toggleTheme = () => {
-                const currentTheme = htmlElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            // Theme functionality
+            function initializeTheme() {
+                const themeToggle = document.getElementById('theme-toggle');
+                const themeIcon = document.getElementById('theme-icon');
+                const htmlElement = document.documentElement;
                 
-                htmlElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                updateThemeUI(newTheme);
+                // Initialize theme from localStorage
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                htmlElement.setAttribute('data-theme', savedTheme);
+                themeIcon.textContent = savedTheme === 'light' ? '🌞' : '🌙';
                 
-                // Animation effect
-                document.body.classList.add('theme-transition');
-                setTimeout(() => {
-                    document.body.classList.remove('theme-transition');
-                }, 300);
-            };
+                // Theme toggle function
+                themeToggle.addEventListener('click', () => {
+                    const currentTheme = htmlElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                    
+                    htmlElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    themeIcon.textContent = newTheme === 'light' ? '🌞' : '🌙';
+                    
+                    // Animation effect
+                    document.body.classList.add('theme-transition');
+                    setTimeout(() => {
+                        document.body.classList.remove('theme-transition');
+                    }, 300);
+                });
+            }
             
-            // Add event listeners to both toggles
-            desktopThemeToggle.addEventListener('click', toggleTheme);
-            mobileThemeToggle.addEventListener('click', toggleTheme);
-        }
-
-        // Initialize theme system
-        document.addEventListener("DOMContentLoaded", async () => {
+            // Initialize theme
             initializeTheme();
             
-            // Use API key from config
-            const apiKey = config.SPOONACULAR_API_KEY;
-            
-            if (!apiKey) {
-                document.getElementById("meal-plan").innerHTML = `
-                    <div class="alert alert-danger">
-                        Error: API key not found. Please check your config.js file.
-                    </div>`;
-                return;
-            }
+            // API functionality
+            async function fetchData() {
+                const apiKey = config.SPOONACULAR_API_KEY;
+                
+                if (!apiKey) {
+                    document.getElementById("meal-plan").innerHTML = `
+                        <div class="alert alert-danger">
+                            Error: API key not found. Please check your config.js file.
+                        </div>`;
+                    return;
+                }
 
-            const demoUrl = `https://api.spoonacular.com/mealplanner/generate?timeFrame=week&apiKey=${apiKey}`;
+                const demoUrl = `https://api.spoonacular.com/mealplanner/generate?timeFrame=week&apiKey=${apiKey}`;
 
-            async function fetchMealPlan() {
                 try {
                     const response = await fetch(demoUrl);
                     if (!response.ok) {
@@ -286,29 +262,8 @@
                 container.appendChild(mealGrid);
             }
 
-            fetchMealPlan();
-        });
-
-        // Add the mobile menu toggle functionality
-        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
-            document.getElementById('main-nav').classList.toggle('open');
-            this.classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking a link
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('main-nav').classList.remove('open');
-                document.getElementById('mobile-menu-toggle').classList.remove('active');
-            });
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('header')) {
-                document.getElementById('main-nav').classList.remove('open');
-                document.getElementById('mobile-menu-toggle').classList.remove('active');
-            }
+            // Fetch the meal plan data
+            fetchData();
         });
     </script>
 </body>

@@ -229,6 +229,13 @@
     color: var(--text);
 }
 
+/* Theme toggle is now always visible in header */
+.theme-toggle-wrapper {
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+}
+
 /* Main Navigation - Show/Hide based on screen size */
 @media (min-width: 992px) {
     .mobile-menu-toggle, 
@@ -238,7 +245,8 @@
     }
 
     .desktop-nav {
-        display: block;
+        display: flex;
+        align-items: center;
     }
 }
 
@@ -298,5 +306,22 @@
 
     .mobile-nav-logo {
         font-size: 1.2rem;
+    }
+}
+
+/* Fixed breakpoints */
+/* Specific breakpoint for 1337px */
+@media (max-width: 1337px) {
+    .desktop-nav .nav-menu {
+        gap: 0.25rem;
+    }
+    
+    .desktop-nav .nav-link {
+        padding: 0.5rem 0.7rem;
+        font-size: 0.9rem;
+    }
+    
+    .desktop-nav .nav-link span:first-child {
+        font-size: 1rem;
     }
 }
