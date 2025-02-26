@@ -1,5 +1,13 @@
 /* Premium Responsive Design for WeeklyMeal App */
 
+/* Controls wrapper for right-side elements */
+.controls-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
 /* Enhanced Mobile Menu */
 .mobile-menu-toggle {
     display: none;
@@ -236,6 +244,17 @@
     align-items: center;
 }
 
+/* Header layout fixes */
+.header-content {
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.desktop-nav {
+    margin-left: auto;
+    margin-right: 16px;
+}
+
 /* Main Navigation - Show/Hide based on screen size */
 @media (min-width: 992px) {
     .mobile-menu-toggle, 
@@ -260,7 +279,16 @@
     }
 
     .header-content {
+        justify-content: space-between;
         padding: 0 1rem;
+    }
+
+    .site-title {
+        margin-right: 0;
+    }
+
+    .controls-wrapper {
+        gap: 8px;
     }
 
     body {
@@ -269,49 +297,24 @@
 
     header {
         padding: 0.8rem;
+        top: 15px;
     }
 }
 
-/* Tablet Specific Styles */
-@media (min-width: 768px) and (max-width: 991px) {
-    .site-title {
-        font-size: 1.6rem;
-    }
-}
-
-/* Mobile Specific Styles */
-@media (max-width: 767px) {
-    .site-title {
-        font-size: 1.4rem;
-    }
-
-    header {
-        top: 10px;
+/* Enhanced responsive styles */
+@media (min-width: 1440px) {
+    .desktop-nav .nav-menu {
+        gap: 0.6rem;
     }
     
-    .mobile-nav-link {
-        padding: 12px 15px;
+    .nav-link {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
     }
 }
 
-/* Small Mobile Adjustments */
-@media (max-width: 375px) {
-    .site-title {
-        font-size: 1.2rem;
-    }
-
-    .mobile-nav-header {
-        padding: 15px;
-    }
-
-    .mobile-nav-logo {
-        font-size: 1.2rem;
-    }
-}
-
-/* Fixed breakpoints */
 /* Specific breakpoint for 1337px */
-@media (max-width: 1337px) {
+@media (max-width: 1337px) and (min-width: 1200px) {
     .desktop-nav .nav-menu {
         gap: 0.25rem;
     }
@@ -323,5 +326,143 @@
     
     .desktop-nav .nav-link span:first-child {
         font-size: 1rem;
+    }
+    
+    .nav-text {
+        display: inline-block;
+    }
+}
+
+/* Tablets and smaller desktops */
+@media (max-width: 1199px) and (min-width: 992px) {
+    .desktop-nav .nav-menu {
+        gap: 0.2rem;
+    }
+    
+    .desktop-nav .nav-link {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.85rem;
+    }
+    
+    .desktop-nav .nav-link span:first-child {
+        font-size: 0.95rem;
+    }
+    
+    .site-title {
+        font-size: 1.5rem;
+    }
+    
+    .header-content {
+        padding: 0 1rem;
+    }
+}
+
+/* Tablet Specific Styles */
+@media (min-width: 768px) and (max-width: 991px) {
+    .site-title {
+        font-size: 1.6rem;
+    }
+    
+    .theme-toggle {
+        padding: 0.7rem;
+    }
+}
+
+/* Mobile Landscape */
+@media (max-width: 767px) and (min-width: 576px) {
+    .site-title {
+        font-size: 1.4rem;
+    }
+    
+    header {
+        top: 10px;
+        width: 95%;
+    }
+    
+    .theme-toggle {
+        padding: 0.6rem;
+    }
+}
+
+/* Mobile Portrait */
+@media (max-width: 575px) {
+    .site-title {
+        font-size: 1.3rem;
+    }
+    
+    header {
+        top: 8px;
+        width: 96%;
+        padding: 0.7rem 0.5rem;
+    }
+    
+    .header-content {
+        padding: 0 0.7rem;
+    }
+    
+    .theme-toggle {
+        padding: 0.6rem;
+        font-size: 1rem;
+    }
+    
+    .mobile-menu-toggle {
+        width: 36px;
+        height: 36px;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 375px) {
+    .site-title {
+        font-size: 1.1rem;
+    }
+    
+    header {
+        top: 5px;
+        padding: 0.6rem 0.4rem;
+    }
+    
+    .theme-toggle {
+        padding: 0.5rem;
+    }
+    
+    .mobile-menu-toggle {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .mobile-nav-header {
+        padding: 15px;
+    }
+    
+    .mobile-nav-logo {
+        font-size: 1.2rem;
+    }
+}
+
+/* XS Mobile */
+@media (max-width: 320px) {
+    .site-title {
+        font-size: 1rem;
+    }
+    
+    .theme-toggle {
+        padding: 0.4rem;
+    }
+    
+    .mobile-menu-toggle {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+/* Fix for Safari and other browsers that don't support backdrop-filter */
+@supports not ((-webkit-backdrop-filter: none) or (backdrop-filter: none)) {
+    .mobile-nav-overlay {
+        background: rgba(0, 0, 0, 0.7);
+    }
+    
+    .header {
+        background: var(--card-bg);
     }
 }
